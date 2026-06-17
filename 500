@@ -1,0 +1,18 @@
+   ✓ 核查结果=NORMAL
+
+echo 
+echo 3. 第二次核查：300方（累计600 超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('permitId')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('location')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Unrecognized token 'E114': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('actualVolume')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('photoPlaceholders')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('result')","data":null}
+echo  超量！自动触发处罚线索）
+INSP2={"code":400,"message":"JSON parse error: Cannot construct instance of `com.river.sand.entity.OnsiteInspection` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('remark')","data":null}
+echo  ✓ 核查结果=

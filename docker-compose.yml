@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sand-mining-backend
+    ports:
+      - "8081:8081"
+    volumes:
+      - sand-mining-data:/data
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/sand_mining;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8081/api/common/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sand-mining-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  sand-mining-data:
+    name: sand-mining-data
