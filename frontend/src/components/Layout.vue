@@ -24,6 +24,14 @@
           <el-icon><Tickets /></el-icon>
           <span>许可证管理</span>
         </el-menu-item>
+        <el-menu-item index="/declarations">
+          <el-icon><List /></el-icon>
+          <span>采砂申报</span>
+        </el-menu-item>
+        <el-menu-item index="/detentions">
+          <el-icon><Lock /></el-icon>
+          <span>现场暂扣</span>
+        </el-menu-item>
         <el-menu-item index="/inspections">
           <el-icon><View /></el-icon>
           <span>现场核查</span>

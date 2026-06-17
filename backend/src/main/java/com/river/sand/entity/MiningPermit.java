@@ -54,6 +54,12 @@ public class MiningPermit {
     private BigDecimal remainingVolume;
 
     @Column(nullable = false)
+    private BigDecimal frozenVolume;
+
+    @Column(nullable = false)
+    private BigDecimal penaltyVolume;
+
+    @Column(nullable = false)
     private BigDecimal depositAmount;
 
     @Enumerated(EnumType.STRING)
@@ -80,6 +86,12 @@ public class MiningPermit {
         }
         if (remainingVolume == null) {
             remainingVolume = permittedVolume;
+        }
+        if (frozenVolume == null) {
+            frozenVolume = BigDecimal.ZERO;
+        }
+        if (penaltyVolume == null) {
+            penaltyVolume = BigDecimal.ZERO;
         }
         if (issueDate == null) {
             issueDate = LocalDateTime.now();

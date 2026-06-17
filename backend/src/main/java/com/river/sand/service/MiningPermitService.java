@@ -69,13 +69,112 @@ public class MiningPermitService {
         }
 
         permit.setUsedVolume(permit.getUsedVolume().add(volume));
-        permit.setRemainingVolume(permit.getPermittedVolume().subtract(permit.getUsedVolume()));
-
-        if (permit.getRemainingVolume().compareTo(BigDecimal.ZERO) < 0) {
-            permit.setRemainingVolume(BigDecimal.ZERO);
-        }
+        recalculateRemaining(permit);
 
         permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void freezeVolume(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        permit.setFrozenVolume(permit.getFrozenVolume().add(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void unfreezeVolume(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        BigDecimal currentFrozen = permit.getFrozenVolume();
+        if (volume.compareTo(currentFrozen) > 0) {
+            volume = currentFrozen;
+        }
+        permit.setFrozenVolume(currentFrozen.subtract(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void addPenaltyVolume(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        permit.setPenaltyVolume(permit.getPenaltyVolume().add(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void reducePenaltyVolume(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        BigDecimal currentPenalty = permit.getPenaltyVolume();
+        if (volume.compareTo(currentPenalty) > 0) {
+            volume = currentPenalty;
+        }
+        permit.setPenaltyVolume(currentPenalty.subtract(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void frozenToPenalty(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        BigDecimal currentFrozen = permit.getFrozenVolume();
+        if (volume.compareTo(currentFrozen) > 0) {
+            volume = currentFrozen;
+        }
+        permit.setFrozenVolume(currentFrozen.subtract(volume));
+        permit.setPenaltyVolume(permit.getPenaltyVolume().add(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    @Transactional
+    public void frozenToUsed(Long permitId, BigDecimal volume) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+
+        BigDecimal currentFrozen = permit.getFrozenVolume();
+        if (volume.compareTo(currentFrozen) > 0) {
+            volume = currentFrozen;
+        }
+        permit.setFrozenVolume(currentFrozen.subtract(volume));
+        permit.setUsedVolume(permit.getUsedVolume().add(volume));
+        recalculateRemaining(permit);
+
+        permitRepository.save(permit);
+    }
+
+    private void recalculateRemaining(MiningPermit permit) {
+        BigDecimal used = permit.getUsedVolume();
+        BigDecimal frozen = permit.getFrozenVolume();
+        BigDecimal penalty = permit.getPenaltyVolume();
+        BigDecimal total = permit.getPermittedVolume();
+
+        BigDecimal remaining = total.subtract(used).subtract(frozen).subtract(penalty);
+        if (remaining.compareTo(BigDecimal.ZERO) < 0) {
+            remaining = BigDecimal.ZERO;
+        }
+        permit.setRemainingVolume(remaining);
+    }
+
+    public BigDecimal getAvailableVolume(Long permitId) {
+        MiningPermit permit = permitRepository.findById(permitId)
+                .orElseThrow(() -> new BusinessException("许可证不存在"));
+        return permit.getRemainingVolume();
     }
 
     @Scheduled(cron = "0 0 1 * * ?")

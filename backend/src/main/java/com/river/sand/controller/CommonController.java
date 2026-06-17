@@ -119,6 +119,8 @@ public class CommonController {
         enums.put("permitStatuses", com.river.sand.enums.PermitStatus.values());
         enums.put("inspectionResults", com.river.sand.enums.InspectionResult.values());
         enums.put("penaltyStatuses", com.river.sand.enums.PenaltyStatus.values());
+        enums.put("declarationStatuses", com.river.sand.enums.DeclarationStatus.values());
+        enums.put("detentionStatuses", com.river.sand.enums.DetentionStatus.values());
         return Result.success(enums);
     }
 

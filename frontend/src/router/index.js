@@ -51,6 +51,54 @@ const routes = [
         meta: { title: '许可证详情' }
       },
       {
+        path: 'declarations',
+        name: 'Declarations',
+        component: () => import('@/views/DeclarationList.vue'),
+        meta: { title: '采砂申报' }
+      },
+      {
+        path: 'declarations/new',
+        name: 'DeclarationNew',
+        component: () => import('@/views/DeclarationForm.vue'),
+        meta: { title: '新建申报' }
+      },
+      {
+        path: 'declarations/:id',
+        name: 'DeclarationDetail',
+        component: () => import('@/views/DeclarationForm.vue'),
+        meta: { title: '申报详情' }
+      },
+      {
+        path: 'declarations/:id/verify',
+        name: 'DeclarationVerify',
+        component: () => import('@/views/DeclarationVerify.vue'),
+        meta: { title: '现场称重核验' }
+      },
+      {
+        path: 'detentions',
+        name: 'Detentions',
+        component: () => import('@/views/DetentionList.vue'),
+        meta: { title: '现场暂扣' }
+      },
+      {
+        path: 'detentions/new',
+        name: 'DetentionNew',
+        component: () => import('@/views/DetentionForm.vue'),
+        meta: { title: '新增暂扣' }
+      },
+      {
+        path: 'detentions/:id',
+        name: 'DetentionDetail',
+        component: () => import('@/views/DetentionForm.vue'),
+        meta: { title: '暂扣详情' }
+      },
+      {
+        path: 'detentions/:id/review',
+        name: 'DetentionReview',
+        component: () => import('@/views/RectificationReviewForm.vue'),
+        meta: { title: '整改复查' }
+      },
+      {
         path: 'inspections',
         name: 'Inspections',
         component: () => import('@/views/InspectionList.vue'),
